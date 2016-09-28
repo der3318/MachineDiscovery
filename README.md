@@ -15,6 +15,9 @@ B03902015
 	* `Makefile` is available
 		* `MachineDiscoveryHw1-1$ make`
 		* `MachineDiscoveryHw1-1$ make run`
-	* Commands
-		* `MachineDiscoveryHw1-1$ javac -d bin -sourcepath src -encoding utf8 -cp libs/jazzy-core-0.5.2.jar src/launch/Main.java`
-		* `MachineDiscoveryHw1-1$ java -Dfile.encoding=UTF-8 -cp bin;libs/jazzy-core-0.5.2.jar launch.Main`
+	* Commands (Windows)
+		* `MachineDiscoveryHw1-1$ javac -d bin -sourcepath src -cp libs/jazzy-core-0.5.2.jar src/launch/Main.java`
+		* `MachineDiscoveryHw1-1$ java -Xmx1024M -cp bin;libs/jazzy-core-0.5.2.jar launch.Main`
+	* Commands (Linux)
+		* `MachineDiscoveryHw1-1$ javac -d bin -sourcepath src -cp libs/jazzy-core-0.5.2.jar src/launch/Main.java`
+		* `MachineDiscoveryHw1-1$ java -Xmx1024M -cp bin:libs/jazzy-core-0.5.2.jar launch.Main`

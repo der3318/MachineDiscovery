@@ -16,6 +16,9 @@ public class ArticleParser {
 	private ProbMatrix probMatrix;
 	private JazzySpellChecker checker;
 	List<Character> chars = new ArrayList<Character>();
+	int[][] cTb;
+	double[][] pTb;
+	final int maxWordLen = 100;
 	
 	public ArticleParser(ProbMatrix _probMatrix, JazzySpellChecker _checker) {
 		probMatrix = _probMatrix;
@@ -23,6 +26,8 @@ public class ArticleParser {
 		for(char c = 'a' ; c <= 'z' ; c++)	chars.add(c);
 		for(char c = '0' ; c <= '9' ; c++)	chars.add(c);
 		chars.add(' ');
+		cTb = new int[ maxWordLen ][ chars.size() ];
+		pTb = new double[ maxWordLen ][ chars.size() ];
 	}
 	
 	// decode the input file to output file
@@ -34,7 +39,7 @@ public class ArticleParser {
 			int lineCnt = 1;
 			final long startTime = System.currentTimeMillis();
 			while( ( line = br.readLine() ) != null ) {
-				String[] words = line.split(" +");
+				String[] words = line.split(" ");
 				int size = words.length;
 				if(words.length > 0)	bw.write( this.parseWord( words[0] ) );
 				System.out.print("\rDecoding \"" + _inputFile + "\", Line " + lineCnt + ", [" + 1 + "/" + size + "]");
@@ -58,8 +63,7 @@ public class ArticleParser {
 	private String parseWord(String _inputCode) {
 		// create table and initialize
 		_inputCode = _inputCode + " ";
-		int cTb[][] = new int[ _inputCode.length() ][ chars.size() ], colSize = chars.size(), rowSize = _inputCode.length();
-		double[][] pTb = new double[ rowSize ][ colSize ];
+		int colSize = chars.size(), rowSize = _inputCode.length();
 		for(int col = 0 ; col < chars.size() ; col++)
 			pTb[0][col] = probMatrix.getProb( ' ', chars.get(col), _inputCode.charAt(0) );
 		// finish the table
@@ -85,8 +89,9 @@ public class ArticleParser {
 			output = chars.get(curCol) + output;
 		}
 		// use JAZZY to check
+		if( output.isEmpty() )	return output;
 		List<String> suggestions = checker.getSuggestions(output);
-		for(String corrected : suggestions)	if(corrected.length() == rowSize - 1)	return corrected;
+		for(String corrected : suggestions)	if(corrected.matches("^[a-z0-9]+$") && corrected.length() == rowSize - 1)	return corrected;
 		return output;
 	}
 	

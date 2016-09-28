@@ -3,8 +3,8 @@ package launch;
 import jazzy.JazzySpellChecker;
 import tool.ArticleParser;
 import tool.Bigram;
-import tool.ProbMatrix;
 import tool.Encoder;
+import tool.ProbMatrix;
 
 public class Main {
 
