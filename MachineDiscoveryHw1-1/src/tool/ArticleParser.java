@@ -9,13 +9,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jazzy.JazzySpellChecker;
+
 public class ArticleParser {
 
-	private Decoder decoder;
+	private ProbMatrix probMatrix;
+	private JazzySpellChecker checker;
 	List<Character> chars = new ArrayList<Character>();
 	
-	public ArticleParser(Decoder _decoder) {
-		decoder = _decoder;
+	public ArticleParser(ProbMatrix _probMatrix, JazzySpellChecker _checker) {
+		probMatrix = _probMatrix;
+		checker = _checker;
 		for(char c = 'a' ; c <= 'z' ; c++)	chars.add(c);
 		for(char c = '0' ; c <= '9' ; c++)	chars.add(c);
 		chars.add(' ');
@@ -54,10 +58,10 @@ public class ArticleParser {
 	private String parseWord(String _inputCode) {
 		// create table and initialize
 		_inputCode = _inputCode + " ";
-		double[][] pTb = new double[ _inputCode.length() ][ chars.size() ];
 		int cTb[][] = new int[ _inputCode.length() ][ chars.size() ], colSize = chars.size(), rowSize = _inputCode.length();
+		double[][] pTb = new double[ rowSize ][ colSize ];
 		for(int col = 0 ; col < chars.size() ; col++)
-			pTb[0][col] = decoder.getProb( ' ', _inputCode.charAt(0), chars.get(col) );
+			pTb[0][col] = probMatrix.getProb( ' ', chars.get(col), _inputCode.charAt(0) );
 		// finish the table
 		for(int row = 1 ; row < rowSize ; row++) {
 			char currCode = _inputCode.charAt(row);
@@ -65,7 +69,7 @@ public class ArticleParser {
 				pTb[row][col] = 0d;
 				char currChar = chars.get(col);
 				for(int lastCol = 0 ; lastCol < colSize ; lastCol++) {
-					double prob = pTb[row - 1][lastCol] * decoder.getProb(chars.get(lastCol), currCode, currChar);
+					double prob = pTb[row - 1][lastCol] * probMatrix.getProb(chars.get(lastCol), currChar, currCode);
 					if(prob > pTb[row][col]) {
 						pTb[row][col] = prob;
 						cTb[row][col] = lastCol;
@@ -80,6 +84,9 @@ public class ArticleParser {
 			curCol = cTb[row][curCol];
 			output = chars.get(curCol) + output;
 		}
+		// use JAZZY to check
+		List<String> suggestions = checker.getSuggestions(output);
+		for(String corrected : suggestions)	if(corrected.length() == rowSize - 1)	return corrected;
 		return output;
 	}
 	
