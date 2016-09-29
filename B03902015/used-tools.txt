@@ -1,0 +1,1 @@
+jazzy-core-0.5.2.jar	http://jazzy.sourceforge.net/

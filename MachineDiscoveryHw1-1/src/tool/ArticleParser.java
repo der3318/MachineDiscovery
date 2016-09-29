@@ -15,10 +15,10 @@ public class ArticleParser {
 
 	private ProbMatrix probMatrix;
 	private JazzySpellChecker checker;
-	List<Character> chars = new ArrayList<Character>();
-	int[][] cTb;
-	double[][] pTb;
-	final int maxWordLen = 100;
+	private List<Character> chars = new ArrayList<Character>();
+	private int[][] cTb;
+	private double[][] pTb;
+	private final int maxWordLen = 100;
 	
 	public ArticleParser(ProbMatrix _probMatrix, JazzySpellChecker _checker) {
 		probMatrix = _probMatrix;
@@ -41,7 +41,7 @@ public class ArticleParser {
 			while( ( line = br.readLine() ) != null ) {
 				String[] words = line.split(" ");
 				int size = words.length;
-				if(words.length > 0)	bw.write( this.parseWord( words[0] ) );
+				if(size > 0)	bw.write( this.parseWord( words[0] ) );
 				System.out.print("\rDecoding \"" + _inputFile + "\", Line " + lineCnt + ", [" + 1 + "/" + size + "]");
 				for(int i = 1 ; i < size ; i++) {
 					bw.write( " " + this.parseWord( words[i] ) );
