@@ -25,7 +25,7 @@
     * Define the objective function $$J=P(x_1,x_2,...,x_T,y_1,y_2,...,y_T|x_0=space)$$
     * With the help of GM, we can decompose $$J$$ to $$\prod_{i=1}^TP(x_i|x_{i-1})P(y_i|x_i)$$
 * Viterbi Algorithm
-    * Suppose sequence $$P=\{p_1,p_2,...,p_T\}$$ are the predicted symbols of a word
+    * Suppose sequence $$P=\{p_0=space,p_1,p_2,...,p_T\}$$ are the predicted symbols of a word
     * Sequence $$O=\{o_1,o_2,...,o_T\}$$ are the observed symbols of a word
     * Define $$M(k,j,i)=P(x_t=X_j|x_{t-1}=X_k)\times P(y_t=o_i|x_t=X_j)$$
     * We want to output the best $$\{p_1,p_2,...,p_T\}$$ by recording the best case of $$P_{idx, j}$$ and $$J_{idx,t}$$ for $$t=1,2,...,T$$ and $$idx=1,2,3,...,size(X)$$, where $$P_{idx,j}=\{p'_1,p'_2,...,p'_{idx-1},X_{idx}\}$$ such that $$J_{idx,t}=\prod_{i=1}^tP(x_i=p'_i|x_{i-1}=p'_{i-1})P(y_i=o_i|x_i=p'_i)$$ is the maximum
@@ -62,6 +62,8 @@
 * `libs/`: Third-part libraries
 * `Makefile`: Makefile for Linux
 * Compile and Run:
+    * Prerequisite
+        * JDK/JRE-1.8
     * Makefile is available
         * `B03902015$ make`
         * `B03902015$ make run`
@@ -72,6 +74,8 @@
         * `B03902015$ javac -d bin -sourcepath src -cp libs/jazzy-core-0.5.2.jar src/launch/Main.java`
         * `B03902015$ java -Xmx1024M -cp bin;libs/jazzy-core-0.5.2.jar launch.Main`
     * The process will generate `docs/pred.txt` according to `docs/test.txt` and it takes about 30 minutes (90% of the time is cosumed by the spell-checker) and at least 800M RAM
+* Screenshot
+![Imgur](http://i.imgur.com/yYWMjDH.jpg)
 
 
 ###### **References**
