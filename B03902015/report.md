@@ -66,10 +66,10 @@
         * `B03902015$ make run`
     * Commands
         * `B03902015$ javac -d bin -sourcepath src src/launch/Main.java`
-        * `B03902015$ java -Xmx1024M launch.Main`
+        * `B03902015$ java -Xmx1024M -cp bin launch.Main`
     * The process will generate `pred.txt` according to `docs/test.txt` and it takes about 3 minutes and at most 800M RAM
 * Screenshot
-![Imgur](http://i.imgur.com/yYWMjDH.jpg)
+![Imgur](http://i.imgur.com/Jkno4IL.jpg)
 
 
 ###### **References**
