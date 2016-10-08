@@ -12,7 +12,6 @@
 * Architecture
     * Seperate each line into words by a space
     * Use [Viterbi Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm) to predict the word
-    * The spelling of the predicted word is corrected by [Jazzy](http://jazzy.sourceforge.net/), which is a Java-based spell-checker
 * Assumption
     * Bigram Language Model: $$P(w_1,w_2,...,w_n)=P(w_1)P(w_2|w_1)P(w_3|w_2)...P(w_n|w_{n-1})$$
     * Probabilistic Encoding Function
@@ -56,10 +55,8 @@
 * `bin/`: Java compiled class files
 * `doc/`: Documents
     * `docs/bigram.txt`: Text file of Bigram Language Model
-    * `docs/dictionary.txt`: Dictionary for Jazzy spell-checker
     * `docs/encode.txt`: Text file of the Probabilistic Encoding Function
     * `docs/test.txt`: Test data for the homework
-* `libs/`: Third-part libraries
 * `Makefile`: Makefile for Linux
 * Compile and Run:
     * Prerequisite
@@ -67,17 +64,14 @@
     * Makefile is available
         * `B03902015$ make`
         * `B03902015$ make run`
-    * Commands (Linux)
-        * `B03902015$ javac -d bin -sourcepath src -cp libs/jazzy-core-0.5.2.jar src/launch/Main.java`
-        * `B03902015$ java -Xmx1024M -cp bin:libs/jazzy-core-0.5.2.jar launch.Main`
-    * Commands (Windows)
-        * `B03902015$ javac -d bin -sourcepath src -cp libs/jazzy-core-0.5.2.jar src/launch/Main.java`
-        * `B03902015$ java -Xmx1024M -cp bin;libs/jazzy-core-0.5.2.jar launch.Main`
-    * The process will generate `docs/pred.txt` according to `docs/test.txt` and it takes about 30 minutes (90% of the time is cosumed by the spell-checker) and at least 800M RAM
+    * Commands
+        * `B03902015$ javac -d bin -sourcepath src src/launch/Main.java`
+        * `B03902015$ java -Xmx1024M launch.Main`
+    * The process will generate `pred.txt` according to `docs/test.txt` and it takes about 3 minutes and at most 800M RAM
 * Screenshot
 ![Imgur](http://i.imgur.com/yYWMjDH.jpg)
 
 
 ###### **References**
 * [Viterbi Algorithm](https://en.wikipedia.org/wiki/Viterbi_algorithm)
-* [Jazzy](http://jazzy.sourceforge.net/)
+

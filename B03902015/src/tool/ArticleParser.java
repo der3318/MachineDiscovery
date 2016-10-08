@@ -9,20 +9,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jazzy.JazzySpellChecker;
-
 public class ArticleParser {
 
 	private ProbMatrix probMatrix;
-	private JazzySpellChecker checker;
 	private List<Character> chars = new ArrayList<Character>();
 	private int[][] cTb;
 	private double[][] pTb;
 	private final int maxWordLen = 100;
 	
-	public ArticleParser(ProbMatrix _probMatrix, JazzySpellChecker _checker) {
+	public ArticleParser(ProbMatrix _probMatrix) {
 		probMatrix = _probMatrix;
-		checker = _checker;
 		for(char c = 'a' ; c <= 'z' ; c++)	chars.add(c);
 		for(char c = '0' ; c <= '9' ; c++)	chars.add(c);
 		chars.add(' ');
@@ -88,10 +84,6 @@ public class ArticleParser {
 			curCol = cTb[row][curCol];
 			output = chars.get(curCol) + output;
 		}
-		// use JAZZY to check
-		if( output.isEmpty() )	return output;
-		List<String> suggestions = checker.getSuggestions(output);
-		for(String corrected : suggestions)	if(corrected.matches("^[a-z0-9]+$") && corrected.length() == rowSize - 1)	return corrected;
 		return output;
 	}
 	
