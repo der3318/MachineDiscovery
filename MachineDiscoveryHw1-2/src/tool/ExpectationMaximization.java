@@ -230,7 +230,8 @@ public class ExpectationMaximization {
 		for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++)
 			alpha[0][ch] = Math.log( bigram.getProb(36, ch) * encoder.getProb( ch, observations.get(0) ) );
 		for(int t = 1 ; t < size ; t++) {
-			System.out.print("\r\tProceessing [" + (t + 1) + "/" + size + "]");
+			if( t % 13318 == 0 || t == (size - 1) )
+				System.out.print("\r\tProceessing [" + (t + 1) + "/" + size + "]");
 			int preCode = observations.get(t - 1);
 			for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++) {
 				int curCode = observations.get(t);
@@ -241,7 +242,7 @@ public class ExpectationMaximization {
 				double sumLog = Double.NEGATIVE_INFINITY;
 				for(int preCh : encoder.getPossibleChars(preCode) ) {
 					double logp2 = ( alpha[t - 1][preCh] + Math.log( bigram.getProb(preCh, ch) ) );
-					if(sumLog == Double.NEGATIVE_INFINITY)
+					if(sumLog == Double.NEGATIVE_INFINITY)	
 						sumLog = logp2;
 					else	sumLog += Math.log( 1 + Math.exp(logp2 - sumLog) );
 				}
@@ -257,7 +258,8 @@ public class ExpectationMaximization {
 		for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++)
 			beta[size - 1][ch] = 0d;
 		for(int t = size - 2 ; t >= 0 ; t--) {
-			System.out.print("\r\tProceessing [" + (size - t) + "/" + size + "]");
+			if(t % 13318 == 0 || t == 0)
+				System.out.print("\r\tProceessing [" + (size - t) + "/" + size + "]");
 			int nextCode = observations.get(t + 1);
 			for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++) {
 				double sumLog = Double.NEGATIVE_INFINITY;
