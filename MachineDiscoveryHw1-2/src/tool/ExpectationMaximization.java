@@ -170,6 +170,7 @@ public class ExpectationMaximization {
 	
 	// construct the best segment
 	private void constructBestSegment(List<Integer> _observations) {
+		System.out.println("[Test] Constructing the best prediction");		
 		segments.clear();
 		if( _observations.isEmpty() )	return;
 		int colSize = Const.NUM_OF_SYMBOL, rowSize = _observations.size() + 1;
@@ -203,7 +204,7 @@ public class ExpectationMaximization {
 		BigDecimal output = new BigDecimal("1");
 		double tmp = 1d;
 		for(int index = 0 ; index < size ; index++) {
-			System.out.print("\r\tProceessing [" + (index + 1) + "/" + size + "]");
+			System.out.print("\r\tProcessing [" + (index + 1) + "/" + size + "]");
 			if(index == 0)	tmp *= bigram.getProb( 36,  predictions.get(0) );
 			else	tmp *= bigram.getProb( predictions.get(index - 1),  predictions.get(index) ); 
 			tmp *= encoder.getProb( predictions.get(index), observations.get(index) );
@@ -255,12 +256,12 @@ public class ExpectationMaximization {
 	
 	// construct beta
 	private void constructBeta() {
-		System.out.println("[Beta] Calculating the alpha/beta table");
+		System.out.println("[Calc	] Calculating the alpha/beta table");
 		for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++)
 			beta[size - 1][ch] = 0d;
 		for(int t = size - 2 ; t >= 0 ; t--) {
 			if(t % 13318 == 0 || t == 0)
-				System.out.print("\r\tProceessing [" + (size - t) + "/" + size + "]");
+				System.out.print("\r\tProcessing [" + (size - t) + "/" + size + "]");
 			int nextCode = observations.get(t + 1);
 			for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++) {
 				double sumLog = Double.NEGATIVE_INFINITY;
