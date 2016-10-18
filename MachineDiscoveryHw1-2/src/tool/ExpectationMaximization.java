@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import config.Const;
 
@@ -55,8 +57,11 @@ public class ExpectationMaximization {
 						biCntTable[i][j] = Double.NEGATIVE_INFINITY;
 					}
 				System.out.println("[Training] Seed No." + seed + ", Round No." + round);
-				this.constructAlpha();
+				ExecutorService threadExecutor = Executors.newCachedThreadPool();
+				threadExecutor.execute( new AlphaThread() );
 				this.constructBeta();
+				threadExecutor.shutdown();
+				while(threadExecutor.isTerminated() == false);
 				this.updateCntTables();
 				this.updateModels();
 				if(stopFlag)	break;
@@ -64,12 +69,12 @@ public class ExpectationMaximization {
 			this.constructBestPrediction();
 			BigDecimal result = this.calcProb();
 			if(result.compareTo(maxProb) < 0)	continue;
-			System.out.println("[New Seed] Seed No." + seed + ", Prob = " + result);
+			System.out.println("[New Seed] Seed No." + seed);
 			maxProb = result;
 			maxSeed = seed;
 			this.dump();
 		}
-		System.out.println("[Complete] maxSeed = " + maxSeed + ", maxProb = " + maxProb + "\n");
+		System.out.println("[Complete] maxSeed = " + maxSeed + ", perdiction file = \"" +  Const.PREDICT_PATH + "\"\n");
 	}
 	
 	// read observations from input file
@@ -150,14 +155,14 @@ public class ExpectationMaximization {
 		int preIdx = 0;
 		for(int idx = 0 ; idx < size ; idx++)
 			if(observations.get(idx) == 36) {
-				System.out.print("\rProcessing [" + (idx + 1) + "/" + size + "]");
+				System.out.print("\r\tProcessing [" + (idx + 1) + "/" + size + "]");
 				this.constructBestSegment( observations.subList(preIdx, idx) );
 				for(Integer i : segments)	predictions.add(i);
 				predictions.add(36);
 				preIdx = idx + 1;
 			}
 		if(preIdx != size) {
-			System.out.println("\rProcessing [" + size + "/" + size + "]");
+			System.out.println("\r\tProcessing [" + size + "/" + size + "]");
 			this.constructBestSegment( observations.subList(preIdx, size) );
 			for(Integer i : segments)	predictions.add(i);
 		}
@@ -198,7 +203,7 @@ public class ExpectationMaximization {
 		BigDecimal output = new BigDecimal("1");
 		double tmp = 1d;
 		for(int index = 0 ; index < size ; index++) {
-			System.out.print("\rProceessing [" + (index + 1) + "/" + size + "]");
+			System.out.print("\r\tProceessing [" + (index + 1) + "/" + size + "]");
 			if(index == 0)	tmp *= bigram.getProb( 36,  predictions.get(0) );
 			else	tmp *= bigram.getProb( predictions.get(index - 1),  predictions.get(index) ); 
 			tmp *= encoder.getProb( predictions.get(index), observations.get(index) );
@@ -226,12 +231,9 @@ public class ExpectationMaximization {
 	
 	// construct alpha
 	private void constructAlpha() {
-		System.out.println("[Alpha] Calculating the alpha table");
 		for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++)
 			alpha[0][ch] = Math.log( bigram.getProb(36, ch) * encoder.getProb( ch, observations.get(0) ) );
 		for(int t = 1 ; t < size ; t++) {
-			if( t % 13318 == 0 || t == (size - 1) )
-				System.out.print("\r\tProceessing [" + (t + 1) + "/" + size + "]");
 			int preCode = observations.get(t - 1);
 			for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++) {
 				int curCode = observations.get(t);
@@ -249,12 +251,11 @@ public class ExpectationMaximization {
 				alpha[t][ch] = sumLog + Math.log( encoder.getProb(ch, curCode) );	
 			}
 		}
-		System.out.println("");
 	}
 	
 	// construct beta
 	private void constructBeta() {
-		System.out.println("[Beta] Calculating the beta table");
+		System.out.println("[Beta] Calculating the alpha/beta table");
 		for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++)
 			beta[size - 1][ch] = 0d;
 		for(int t = size - 2 ; t >= 0 ; t--) {
@@ -273,6 +274,16 @@ public class ExpectationMaximization {
 			}
 		}
 		System.out.println("");
+	}
+	
+	// threads to run alpha
+	private class AlphaThread implements Runnable {
+
+		@Override
+		public void run() {
+			ExpectationMaximization.this.constructAlpha();
+		}
+		
 	}
 	
 }

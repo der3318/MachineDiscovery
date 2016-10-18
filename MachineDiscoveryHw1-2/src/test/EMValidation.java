@@ -18,7 +18,7 @@ public class EMValidation {
 				String[] predWords = linePred.trim().split(" ");
 				String[] ansWords = lineAns.trim().split(" ");
 				size += predWords.length;
-				if(ansWords.length != size) {
+				if(ansWords.length < size) {
 					System.err.println("[Error] Unmatch: Number of the words");
 					brPred.close();
 					brAns.close();
