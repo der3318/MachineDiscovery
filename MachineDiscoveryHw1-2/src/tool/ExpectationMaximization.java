@@ -256,7 +256,7 @@ public class ExpectationMaximization {
 	
 	// construct beta
 	private void constructBeta() {
-		System.out.println("[Calc	] Calculating the alpha/beta table");
+		System.out.println("[Calc] Calculating the alpha/beta table");
 		for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++)
 			beta[size - 1][ch] = 0d;
 		for(int t = size - 2 ; t >= 0 ; t--) {
