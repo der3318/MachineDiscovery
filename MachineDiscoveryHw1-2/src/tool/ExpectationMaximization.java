@@ -151,14 +151,15 @@ public class ExpectationMaximization {
 	
 	// construct the best prediction
 	private void constructBestPrediction() {
+		System.out.println("[Test] Constructing the best prediction");
 		predictions.clear();
 		int preIdx = 0;
 		for(int idx = 0 ; idx < size ; idx++)
-			if(observations.get(idx) == 36) {
+			if( observations.get(idx) == (Const.NUM_OF_SYMBOL - 1) ) {
 				System.out.print("\r\tProcessing [" + (idx + 1) + "/" + size + "]");
 				this.constructBestSegment( observations.subList(preIdx, idx) );
 				for(Integer i : segments)	predictions.add(i);
-				predictions.add(36);
+				predictions.add(Const.NUM_OF_SYMBOL - 1);
 				preIdx = idx + 1;
 			}
 		if(preIdx != size) {
@@ -170,15 +171,14 @@ public class ExpectationMaximization {
 	
 	// construct the best segment
 	private void constructBestSegment(List<Integer> _observations) {
-		System.out.println("[Test] Constructing the best prediction");		
 		segments.clear();
 		if( _observations.isEmpty() )	return;
 		int colSize = Const.NUM_OF_SYMBOL, rowSize = _observations.size() + 1;
 		for(int col = 0 ; col < colSize ; col++)
-			pTb[0][col] = bigram.getProb(36, col) * encoder.getProb( col, _observations.get(0) );
+			pTb[0][col] = bigram.getProb(Const.NUM_OF_SYMBOL - 1, col) * encoder.getProb( col, _observations.get(0) );
 		// finish the table
 		for(int row = 1 ; row < rowSize ; row++) {
-			int currentCode = ( row == rowSize - 1 ? 36 : _observations.get(row) );
+			int currentCode = ( row == rowSize - 1 ? Const.NUM_OF_SYMBOL - 1 : _observations.get(row) );
 			for(int col = 0 ; col < colSize ; col++) {
 				pTb[row][col] = 0d;
 				for(int lastCol = 0 ; lastCol < colSize ; lastCol++) {
@@ -191,7 +191,7 @@ public class ExpectationMaximization {
 			}
 		}
 		// rebuild the word from the end
-		int currentCol = 36;
+		int currentCol = Const.NUM_OF_SYMBOL - 1;
 		for(int row = rowSize - 1 ; row > 0 ; row--) {
 			currentCol = cTb[row][currentCol];
 			segments.add(0, currentCol);
@@ -205,7 +205,7 @@ public class ExpectationMaximization {
 		double tmp = 1d;
 		for(int index = 0 ; index < size ; index++) {
 			System.out.print("\r\tProcessing [" + (index + 1) + "/" + size + "]");
-			if(index == 0)	tmp *= bigram.getProb( 36,  predictions.get(0) );
+			if(index == 0)	tmp *= bigram.getProb( Const.NUM_OF_SYMBOL - 1,  predictions.get(0) );
 			else	tmp *= bigram.getProb( predictions.get(index - 1),  predictions.get(index) ); 
 			tmp *= encoder.getProb( predictions.get(index), observations.get(index) );
 			if(index % 10 == 0) {
@@ -233,7 +233,7 @@ public class ExpectationMaximization {
 	// construct alpha
 	private void constructAlpha() {
 		for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++)
-			alpha[0][ch] = Math.log( bigram.getProb(36, ch) * encoder.getProb( ch, observations.get(0) ) );
+			alpha[0][ch] = Math.log( bigram.getProb(Const.NUM_OF_SYMBOL - 1, ch) * encoder.getProb( ch, observations.get(0) ) );
 		for(int t = 1 ; t < size ; t++) {
 			int preCode = observations.get(t - 1);
 			for(int ch = 0 ; ch < Const.NUM_OF_SYMBOL ; ch++) {

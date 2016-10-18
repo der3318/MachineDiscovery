@@ -5,6 +5,7 @@ import test.EMValidation;
 import tool.Bigram;
 import tool.Encoder;
 import tool.ExpectationMaximization;
+import tool.SpaceDetecter;
 
 public class Main {
 
@@ -17,6 +18,7 @@ public class Main {
 		if( args[0].equals("train") ) {
 			Const.ENCODE_TABLE_PATH = args[1];
 			Const.TEST_DATA_PATH = args[2];
+			SpaceDetecter.setUp(Const.ENCODE_TABLE_PATH);
 			Encoder encoder = Encoder.getInstance(Const.ENCODE_TABLE_PATH);
 			Bigram bigram = Bigram.getInstance();
 			new ExpectationMaximization(bigram, encoder, Const.TEST_DATA_PATH, Const.PREDICT_PATH).proceed();
