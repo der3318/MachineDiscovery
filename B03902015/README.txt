@@ -41,4 +41,4 @@ Commands
 		Optional, since there mihgt not be an answer file
 
 
-The process will generate "./pred.txt" according to the given test data and it takes about 30 minutes and at most 4G RAM
+The process will generate "./pred.txt" according to the given test data and it takes about 3 hours and at most 4G RAM
