@@ -98,7 +98,7 @@
             * Input: `./pred.num` and `./valid/ans.num`
             * Output: The accuracy dumped by standard-out
             * Optional, since there mihgt not be an answer file
-    * The process will generate `./pred.txt` according to the given test data and it takes about 3 hours and at most 2G RAM
+    * The process will generate `./pred.txt` according to the given test data and it takes about 3 hours and at most 4G RAM
 * Screenshot
 ![Imgur](http://i.imgur.com/ZpeTIDL.jpg)
 
