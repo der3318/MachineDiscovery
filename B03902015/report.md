@@ -18,6 +18,7 @@
 * Assumption
     * Bigram Language Model: $$P(w_1,w_2,...,w_n)=P(w_1)P(w_2|w_1)P(w_3|w_2)...P(w_n|w_{n-1})$$
     * Probabilistic Encoding Function
+    * `MAX_ITERATION = 50`, `NUM_OF_SEEDS = 3`
 * Probalilistic Graphical Model
 ![Imgur](http://i.imgur.com/voTFG0Y.png)
     * $$\forall x_t,y_t\in X$$, where $$X$$ consists of some symbols  representing the characters (numbers $$0$$ to $$N-1$$) and the space (number $$N$$)
@@ -97,8 +98,9 @@
             * Input: `./pred.num` and `./valid/ans.num`
             * Output: The accuracy dumped by standard-out
             * Optional, since there mihgt not be an answer file
-    * The process will generate `./pred.txt` according to the given test data and it takes about 30 minutes and at most 2G RAM
+    * The process will generate `./pred.txt` according to the given test data and it takes about 3 hours and at most 4G RAM
 * Screenshot
+![Imgur](http://i.imgur.com/ZpeTIDL.jpg)
 
 
 ###### **References**
