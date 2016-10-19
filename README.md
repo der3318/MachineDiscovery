@@ -31,6 +31,6 @@ B03902015
 		* `MachineDiscoveryHw1-2$ make run_test2`
 	* Commands
 		* `MachineDiscoveryHw1-2$ javac -d bin -sourcepath src src/launch/Main.java`
-		* `MachineDiscoveryHw1-2$ java -Xmx4096M -cp bin launch.Main train ./docs/valid/encode.bin ./docs/valid/test.num`
-		* `MachineDiscoveryHw1-2$ java -Xmx4096M -cp bin launch.Main valid ./pred.num ./docs/valid/ans.num`
+		* `MachineDiscoveryHw1-2$ java -Xmx4096M -cp bin launch.Main train ./valid/encode.bin ./valid/test.num`
+		* `MachineDiscoveryHw1-2$ java -Xmx4096M -cp bin launch.Main valid ./pred.num ./valid/ans.num`
 
