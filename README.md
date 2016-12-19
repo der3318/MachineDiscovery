@@ -50,3 +50,16 @@ B03902015
 		* `B03902010-B03902015-B03902086-hw2$ python3 src/md_hw3_theano_v4.py test1 30 pred1.txt pred2.txt`
 		* `B03902010-B03902015-B03902086-hw2$ python3 src/md_hw3_theano_v4.py test2 30 pred1.txt pred2.txt`
 
+
+###### Homework 3
+* Directory: `B03902010-B03902015-B03902086-hw3/`
+* Source: `B03902010-B03902015-B03902086-hw3/src/`
+* Install and Run (Linux)
+	* Install
+		* `B03902010-B03902015-B03902086-hw3$ pip3 install tensorflow
+	* Run
+		* `B03902010-B03902015-B03902086-hw3$ cd src`
+		* `B03902010-B03902015-B03902086-hw3/src$ python3 test1.py 0 0`
+		* `B03902010-B03902015-B03902086-hw3/src$ python3 test2.py`
+		* `B03902010-B03902015-B03902086-hw3/src$ python3 test3.py`
+		* `B03902010-B03902015-B03902086-hw3/src$ python3 test1.py 1 0.38`
